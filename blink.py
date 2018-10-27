@@ -3,6 +3,7 @@
 # pylint: disable=no-value-for-parameter
 
 from selenium import webdriver
+from urllib.parse import urlparse
 import click
 import ssl
 import os
@@ -70,7 +71,8 @@ def main(input_file, window_size, time_out):
         try:
             page_counter += 1
             print("[%d/%d] Opening %s" % (page_counter, page_amount, url))
-            driver.get("https://" + url)
+            parsed_url = urlparse(url, 'http')
+            driver.get(parsed_url.geturl())
             driver.get_screenshot_as_file("screenshots/" + url + ".png")
         except:
             print("[!] Couldn't save %s, skipping..." % (url))
